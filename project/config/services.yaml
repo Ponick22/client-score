@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+            - '../**/{Contract,DTO,ValueObject,Model,Enum,Trait,Event,Entity,Exception}/*.php'

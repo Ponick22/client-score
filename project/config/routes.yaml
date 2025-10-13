@@ -1,0 +1,5 @@
+controllers:
+    resource:
+        path: ../src/Presentation/EntryPoint/Controller/
+        namespace: App\Presentation\EntryPoint\Controller
+    type: attribute

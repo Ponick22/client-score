@@ -1,0 +1,8 @@
+#!/bin/sh
+set -f
+cd "$(dirname "$0")"/../
+
+bin/composer install
+bin/app cache:clear
+bin/app doctrine:database:create
+bin/mg
