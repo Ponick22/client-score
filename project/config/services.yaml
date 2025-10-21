@@ -28,6 +28,10 @@ services:
     App\Application\Scoring\Types\PhoneOperatorScoring:
         $scoringRules: '%scoring_rules%'
 
+    App\Application\Client\Service\ClientScoreCalculating:
+        arguments:
+            $scoringServices: !tagged_iterator app.scoring
+
     App\Infrastructure\Http\PhoneOperator\HtmlWeb\HtmlWebPhoneOperatorGetter:
         $apiUrl: '%env(HTMLWEB_API_URL)%'
         $apiKey: '%env(HTMLWEB_API_KEY)%'
