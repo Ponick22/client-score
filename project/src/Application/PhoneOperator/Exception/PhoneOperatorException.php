@@ -1,0 +1,9 @@
+<?php
+
+namespace App\Application\PhoneOperator\Exception;
+
+use App\Application\Exception\ApplicationExceptionAbstract;
+
+class PhoneOperatorException extends ApplicationExceptionAbstract
+{
+}

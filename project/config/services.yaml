@@ -8,3 +8,7 @@ services:
         exclude:
             - '../src/Kernel.php'
             - '../**/{Contract,DTO,ValueObject,Model,Enum,Trait,Event,Entity,Exception}/*.php'
+
+    App\Infrastructure\Http\PhoneOperator\HtmlWeb\HtmlWebPhoneOperatorGetter:
+        $apiUrl: '%env(HTMLWEB_API_URL)%'
+        $apiKey: '%env(HTMLWEB_API_KEY)%'

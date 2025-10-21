@@ -43,3 +43,13 @@ services:
             - app_network
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+    phone_operator_mock:
+        build:
+            context: ./docker/phoneOperatorMock
+        container_name: phone_operator_mock
+        restart: always
+        ports:
+            - "8000:8000"
+        networks:
+            - app_network
