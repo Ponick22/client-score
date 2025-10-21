@@ -1,13 +1,32 @@
+imports:
+    - { resource: app/scoring_rules.yaml }
+
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    _instanceof:
+        App\Application\Scoring\Contract\ScoringInterface:
+            tags: ['app.scoring']
 
     App\:
         resource: '../src/'
         exclude:
             - '../src/Kernel.php'
             - '../**/{Contract,DTO,ValueObject,Model,Enum,Trait,Event,Entity,Exception}/*.php'
+
+    App\Application\Scoring\Types\ConsentScoring:
+        $scoringRules: '%scoring_rules%'
+
+    App\Application\Scoring\Types\EmailDomainScoring:
+        $scoringRules: '%scoring_rules%'
+
+    App\Application\Scoring\Types\EducationScoring:
+        $scoringRules: '%scoring_rules%'
+
+    App\Application\Scoring\Types\PhoneOperatorScoring:
+        $scoringRules: '%scoring_rules%'
 
     App\Infrastructure\Http\PhoneOperator\HtmlWeb\HtmlWebPhoneOperatorGetter:
         $apiUrl: '%env(HTMLWEB_API_URL)%'

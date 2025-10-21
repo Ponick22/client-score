@@ -1,0 +1,24 @@
+parameters:
+    scoring_rules:
+        phone_operator:
+            list:
+                Мегафон: 10
+                Билайн: 5
+                МТС: 3
+            default: 1
+        email_domain:
+            list:
+                gmail.com: 10
+                yandex.ru: 8
+                mail.ru: 6
+            default: 3
+        education:
+            list:
+                higher: 15
+                special: 10
+                secondary: 5
+            default: 0
+        consent:
+            list:
+                "true": 4
+            default: 0
