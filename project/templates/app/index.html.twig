@@ -3,6 +3,9 @@
 {% block title %}Начальная страница{% endblock %}
 
 {% block body %}
-    <h1>Symfony</h1>
-    <p>Hello{% if name is not empty %} <b>{{ name }}</b>{% endif %}!</p>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="{{ path('app_client_registration') }}" class="btn btn-primary">
+            {{ 'scoring.title'|trans }}
+        </a>
+    </div>
 {% endblock %}

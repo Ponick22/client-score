@@ -1,0 +1,43 @@
+client:
+    email: 'Электронная почта'
+    phone: 'Телефон'
+    firstname: 'Имя'
+    lastname: 'Фамилия'
+    education: 'Образование'
+    consent_personal_data: 'Согласие'
+    personal_consent_personal_data: 'Я даю согласие на обработку моих личных данных'
+    education_higher: 'Высшее'
+    education_special: 'Специальное'
+    education_secondary: 'Среднее'
+    score: 'Скоринг'
+    save: 'Сохранить'
+    table: 'Клиенты'
+    title: 'Клиент'
+    edit_title: 'Редактирование клиента'
+    updated: 'Клиент с ID %id% обновлен'
+scoring:
+    title: 'Расчёт скоринга'
+    submit: 'Рассчитать'
+    registration_success: 'Расчёт скоринга успешно выполнен'
+    error:
+        phone_operator: 'Проблема с оператором телефона. Попробуйте позже.'
+login:
+    title: 'Вход в систему'
+    logged_in_as: 'Вы вошли как %username%'
+    email: 'Электронная почта'
+    password: 'Пароль'
+    logout: 'Выход'
+    submit: 'Вход'
+table:
+    actions: 'Действия'
+    no_records_found: 'Ничего не найдено'
+    action_show: 'Показать'
+    action_edit: 'Редактировать'
+form:
+    back_to_list: 'Вернуться к списку'
+    edit: 'Редактировать'
+error:
+    server: 'Ошибка сервера. Попробуйте позже'
+
+
+
