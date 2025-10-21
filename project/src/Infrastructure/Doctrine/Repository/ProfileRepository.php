@@ -29,6 +29,11 @@ class ProfileRepository extends ServiceEntityRepository implements ProfileReposi
         return $this->findOneBy(['user' => $user]);
     }
 
+    public function getOneByEmail(string $email): ?ProfileEntityInterface
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
     public function getOneByPhone(string $phone): ?ProfileEntityInterface
     {
         return $this->findOneBy(['phone' => $phone]);

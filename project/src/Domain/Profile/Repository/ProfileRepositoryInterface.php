@@ -9,5 +9,6 @@ interface ProfileRepositoryInterface
 {
     public function getOne(int $id): ?ProfileEntityInterface;
     public function getOneByUser(UserEntityInterface $user): ?ProfileEntityInterface;
+    public function getOneByEmail(string $email): ?ProfileEntityInterface;
     public function getOneByPhone(string $phone): ?ProfileEntityInterface;
 }

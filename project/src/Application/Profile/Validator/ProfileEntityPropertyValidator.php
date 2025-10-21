@@ -41,6 +41,8 @@ readonly class ProfileEntityPropertyValidator
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors->addError($property, $this->t('error.email.invalid'));
+        } else if ($this->repository->getOneByEmail($email)) {
+            $errors->addError($property, $this->t('error.email.already_exists'));
         }
 
         return $errors;
