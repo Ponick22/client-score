@@ -18,7 +18,7 @@ client:
 scoring:
     title: 'Расчёт скоринга'
     submit: 'Рассчитать'
-    registration_success: 'Расчёт скоринга успешно выполнен'
+    registration_success: 'Расчёт скоринга успешно выполнен. Ваш балл - %score%'
     error:
         phone_operator: 'Проблема с оператором телефона. Попробуйте позже.'
 login:

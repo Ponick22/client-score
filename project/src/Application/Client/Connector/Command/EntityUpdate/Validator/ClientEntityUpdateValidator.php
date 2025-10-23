@@ -19,8 +19,6 @@ readonly class ClientEntityUpdateValidator
 
         $profile = $entity->getProfile();
 
-        dump($profile->getEmail(), $data->getEmail());
-
         if ($profile->getEmail() !== $data->getEmail()) {
             $errors->addErrors($this->profileValidator->emailValidation($data->getEmail()));
         }
