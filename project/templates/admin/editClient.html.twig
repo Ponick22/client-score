@@ -1,0 +1,21 @@
+{% extends 'admin/baseClient.html.twig' %}
+
+{% block title %}{{ 'client.edit_title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'client.edit_title'|trans }}</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('admin_clients') }}" id="back-to-list" class="btn btn-outline-secondary">
+        {{ 'form.back_to_list' | trans }}
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setupBackToListButton('back-to-list');
+        });
+    </script>
+{% endblock %}

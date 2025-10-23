@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'client.table'|trans }}{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page');
+            const limit = urlParams.get('limit');
+
+            sessionStorage.setItem('clientListPage', page);
+            sessionStorage.setItem('clientListLimit', limit);
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'client.table'|trans }} </h1>
+    <table class="table table-striped table-hover text-center">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>{{ 'client.email'|trans }}</th>
+            <th>{{ 'client.phone'|trans }}</th>
+            <th>{{ 'client.score'|trans }}</th>
+            <th>{{ 'table.actions'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.profile.email }}</td>
+                <td>{{ client.profile.phone }}</td>
+                <td>{{ client.score }}</td>
+                <td>
+                    <a href="{{ path('admin_show_client', {'id': client.id}) }}" class="no-underline-link me-2"
+                       title="{{ 'table.action_show'|trans }}">
+                        <i class="bi bi-eye fs-5"></i>
+                    </a>
+                    <a href="{{ path('admin_edit_client', {'id': client.id}) }}" class="no-underline-link"
+                       title="{{ 'table.action_edit'|trans }}">
+                        <i class="bi bi-pencil fs-6"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">{{ 'table.no_records_found'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if currentPage > 1 %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': currentPage - 1})) }}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for i in 1..totalPages %}
+                <li class="page-item {{ i == currentPage ? 'active' : '' }}">
+                    <a class="page-link"
+                       href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': i})) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+
+            {% if currentPage < totalPages %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': currentPage + 1})) }}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

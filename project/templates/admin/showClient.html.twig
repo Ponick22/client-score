@@ -1,0 +1,67 @@
+{% extends 'admin/baseClient.html.twig' %}
+
+{% block title %}{{ 'client.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div class="container my-4">
+        <h1 class="mb-2 text-center">{{ 'client.title'|trans }}</h1>
+
+        <table class="table table-bordered table-striped w-50 mx-auto">
+            <tbody>
+            <tr>
+                <th scope="row">ID</th>
+                <td>{{ client.id }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.email'|trans }}</th>
+                <td>{{ client.profile.email }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.phone'|trans }}</th>
+                <td>{{ client.profile.phone }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.firstname'|trans }}</th>
+                <td>{{ client.profile.firstName }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.lastname'|trans }}</th>
+                <td>{{ client.profile.lastName }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.education'|trans }}</th>
+                <td>{{ ('client.education_' ~ client.education.value)|trans }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.consent_personal_data'|trans }}</th>
+                <td>
+                    {% if client.consentPersonalData %}
+                        <i class="bi bi-check-lg fs-5 text-success"></i>
+                    {% else %}
+                        <i class="bi bi-x-lg fs-5 text-danger"></i>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.score'|trans }}</th>
+                <td>{{ client.score }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center gap-3 mt-4">
+            <a href="{{ path('admin_clients') }}" id="back-to-list" class="btn btn-outline-secondary">
+                {{ 'form.back_to_list' | trans }}
+            </a>
+            <a href="{{ path('admin_edit_client', {'id': client.id}) }}" class="btn btn-primary">
+                {{ 'form.edit'|trans }}
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setupBackToListButton('back-to-list');
+        });
+    </script>
+{% endblock %}

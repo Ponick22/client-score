@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function setupBackToListButton(buttonId) {
+            const backToListBtn = document.getElementById(buttonId);
+            if (!backToListBtn) return;
+
+            const savedPage = sessionStorage.getItem('clientListPage');
+            const savedLimit = sessionStorage.getItem('clientListLimit');
+
+            const url = new URL(backToListBtn.href);
+
+            if (savedPage !== 'null') {
+                url.searchParams.set('page', savedPage);
+            }
+
+            if (savedLimit !== 'null') {
+                url.searchParams.set('limit', savedLimit);
+            }
+
+            backToListBtn.href = url.toString();
+        }
+    </script>
+{% endblock %}

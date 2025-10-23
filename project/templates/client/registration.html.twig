@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'scoring.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'scoring.title'|trans }}</h1>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

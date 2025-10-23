@@ -29,11 +29,11 @@ readonly class CreateAdminUserCommand
     ): int
     {
         try {
-            $creationData = new UserEntityCreationData(
-                $email,
-                $password,
-                [UserRole::ADMIN]
-            );
+            $creationData = new UserEntityCreationData();
+            $creationData
+                ->setEmail($email)
+                ->setPassword($password)
+                ->setRoles([UserRole::ADMIN]);
 
             $this->userEntityCreationCommand->execute($creationData);
         } catch (ValidationException $e) {
