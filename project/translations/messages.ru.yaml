@@ -24,6 +24,7 @@ scoring:
     registration_success: 'Расчёт скоринга успешно выполнен. Ваш балл - %score%'
     error:
         phone_operator: 'Проблема с оператором телефона. Попробуйте позже.'
+        process_locked: 'Процесс расчета скоринга выполняется. Попробуйте позже.'
 login:
     title: 'Вход в систему'
     logged_in_as: 'Вы вошли как %username%'

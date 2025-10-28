@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     g++ \
     && docker-php-ext-install pdo_mysql zip intl \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer

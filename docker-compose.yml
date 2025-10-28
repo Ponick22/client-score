@@ -44,6 +44,17 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
+    redis:
+        image: redis:alpine
+        container_name: redis
+        restart: always
+        ports:
+            - "${REDIS_HOST}:${REDIS_PORT}:6379"
+        networks:
+            - app_network
+        volumes:
+            - ./var/data/redis:/data
+
     phone_operator_mock:
         build:
             context: ./docker/phoneOperatorMock

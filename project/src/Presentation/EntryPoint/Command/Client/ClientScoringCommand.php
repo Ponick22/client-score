@@ -5,6 +5,7 @@ namespace App\Presentation\EntryPoint\Command\Client;
 use App\Application\Client\Connector\Command\ScoreCalculate\ClientEntityListScoreCalculateCommand;
 use App\Application\Client\Connector\Command\ScoreCalculate\ClientEntityScoreCalculateCommand;
 use App\Application\Client\Exception\ClientEntityNotFoundException;
+use App\Application\Lock\Exception\ProcessLockedException;
 use App\Domain\EntityManager\Exception\EntityManagerException;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -72,8 +73,8 @@ readonly class ClientScoringCommand
             $table->setRows($rows);
             $table->render();
 
-        } catch (ClientEntityNotFoundException|EntityManagerException $e) {
-            $output->writeln('<error>Calculate client scoring failed: </error>' . $e->getMessage());
+        } catch (ClientEntityNotFoundException|EntityManagerException|ProcessLockedException $e) {
+            $output->writeln('<error>Calculate client scoring failed:</error> ' . $e->getMessage());
 
             return Command::FAILURE;
         }
