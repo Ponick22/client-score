@@ -19,11 +19,11 @@ readonly class ClientEntityUpdateValidator
 
         $profile = $entity->getProfile();
 
-        if ($profile->getEmail() !== $data->getEmail()) {
+        if ((string)$profile->getEmail() !== (string)$data->getEmail()) {
             $errors->addErrors($this->profileValidator->emailValidation($data->getEmail()));
         }
 
-        if ($profile->getPhone() !== $data->getPhone()) {
+        if ((string)$profile->getPhone() !== (string)$data->getPhone()) {
             $errors->addErrors($this->profileValidator->phoneValidation($data->getPhone()));
         }
 

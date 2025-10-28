@@ -4,6 +4,7 @@ namespace App\Infrastructure\Doctrine\Entity;
 
 use App\Domain\Client\Entity\ClientEntityInterface;
 use App\Domain\Client\Enum\EducationEnum;
+use App\Domain\PhoneOperator\ValueObject\PhoneOperator;
 use App\Domain\Profile\Entity\ProfileEntityInterface;
 use App\Infrastructure\Doctrine\Repository\ClientRepository;
 use Doctrine\DBAL\Types\Types;
@@ -43,7 +44,7 @@ class Client implements ClientEntityInterface
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTimeImmutable();
+        $now             = new \DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -59,7 +60,7 @@ class Client implements ClientEntityInterface
         return $this->id;
     }
 
-    public function getProfile(): Profile
+    public function getProfile(): ProfileEntityInterface
     {
         return $this->profile;
     }
@@ -99,21 +100,14 @@ class Client implements ClientEntityInterface
         return $this;
     }
 
-    public function getPhoneOperator(): ?string
+    public function getPhoneOperator(): ?PhoneOperator
     {
-        return $this->phoneOperator;
+        return $this->phoneOperator ? PhoneOperator::fromPhoneOperator($this->phoneOperator) : null;
     }
 
-    protected function setPhoneOperator(?string $phoneOperator): static
+    public function setPhoneOperator(?PhoneOperator $phoneOperator): static
     {
         $this->phoneOperator = $phoneOperator;
-
-        return $this;
-    }
-
-    public function changePhoneOperator(?string $phoneOperator): static
-    {
-        $this->setPhoneOperator($phoneOperator);
 
         return $this;
     }

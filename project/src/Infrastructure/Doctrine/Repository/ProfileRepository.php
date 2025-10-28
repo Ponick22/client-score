@@ -4,6 +4,8 @@ namespace App\Infrastructure\Doctrine\Repository;
 
 use App\Domain\Profile\Entity\ProfileEntityInterface;
 use App\Domain\Profile\Repository\ProfileRepositoryInterface;
+use App\Domain\Profile\ValueObject\ProfileEmail;
+use App\Domain\Profile\ValueObject\ProfilePhone;
 use App\Domain\User\Entity\UserEntityInterface;
 use App\Infrastructure\Doctrine\Entity\Profile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -29,13 +31,13 @@ class ProfileRepository extends ServiceEntityRepository implements ProfileReposi
         return $this->findOneBy(['user' => $user]);
     }
 
-    public function getOneByEmail(string $email): ?ProfileEntityInterface
+    public function getOneByEmail(ProfileEmail $email): ?ProfileEntityInterface
     {
-        return $this->findOneBy(['email' => $email]);
+        return $this->findOneBy(['email' => (string)$email]);
     }
 
-    public function getOneByPhone(string $phone): ?ProfileEntityInterface
+    public function getOneByPhone(ProfilePhone $phone): ?ProfileEntityInterface
     {
-        return $this->findOneBy(['phone' => $phone]);
+        return $this->findOneBy(['phone' => (string)$phone]);
     }
 }

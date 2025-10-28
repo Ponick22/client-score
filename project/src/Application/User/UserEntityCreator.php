@@ -3,17 +3,17 @@
 namespace App\Application\User;
 
 use App\Application\User\DTO\UserCreateData;
-use App\Application\User\Service\UserPasswordChanger;
 use App\Domain\EntityManager\EntityManagerInterface;
 use App\Domain\EntityManager\Exception\EntityManagerException;
 use App\Domain\User\Entity\UserEntityInterface;
 use App\Domain\User\Factory\UserEntityFactoryInterface;
+use App\Domain\User\Service\PasswordHasherInterface;
 
 readonly class UserEntityCreator
 {
     public function __construct(
         private UserEntityFactoryInterface $factory,
-        private UserPasswordChanger        $passwordChanger,
+        private PasswordHasherInterface    $hasher,
         private EntityManagerInterface     $entityManager,
     ) {}
 
@@ -29,7 +29,8 @@ readonly class UserEntityCreator
             ->setRoles($data->getRoles());
 
         if ($data->getPassword()) {
-            $this->passwordChanger->change($entity, $data->getPassword());
+            $hashPassword = $this->hasher->hash($entity, $data->getPassword());
+            $entity->setPassword($hashPassword);
         }
 
         $this->entityManager->persist($entity);

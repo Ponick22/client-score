@@ -4,8 +4,13 @@ namespace App\Presentation\EntryPoint\Command\User;
 
 use App\Application\Exception\ValidationException;
 use App\Application\User\Connector\Command\EntityCreation\UserEntityCreationCommand;
-use App\Application\User\Model\UserRole;
 use App\Domain\EntityManager\Exception\EntityManagerException;
+use App\Domain\User\Enum\UserRoleEnum;
+use App\Domain\User\Exception\UserEmailInvalidException;
+use App\Domain\User\Exception\UserPasswordInvalidException;
+use App\Domain\User\ValueObject\UserEmail;
+use App\Domain\User\ValueObject\UserPassword;
+use App\Domain\User\ValueObject\UserRoleEnumCollection;
 use App\Presentation\EntryPoint\Data\User\DTO\UserEntityCreationData;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,13 +34,17 @@ readonly class CreateAdminUserCommand
     ): int
     {
         try {
-            $creationData = new UserEntityCreationData();
-            $creationData
-                ->setEmail($email)
-                ->setPassword($password)
-                ->setRoles([UserRole::ADMIN]);
+            $creationData = new UserEntityCreationData(
+                new UserEmail($email),
+                new UserPassword($password),
+                new UserRoleEnumCollection([UserRoleEnum::Admin])
+            );
 
             $this->userEntityCreationCommand->execute($creationData);
+        } catch (UserEmailInvalidException|UserPasswordInvalidException $e) {
+            $output->writeln('<error>Admin user creation failed: ' . $e->getMessage() . '</error>');
+
+            return Command::FAILURE;
         } catch (ValidationException $e) {
             $output->writeln([
                 '<error>Admin user creation failed: ' . $e->getMessage() . '</error>',

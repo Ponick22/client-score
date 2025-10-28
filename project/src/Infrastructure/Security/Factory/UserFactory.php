@@ -12,7 +12,7 @@ class UserFactory
         return new User(
             $entity->getEmail(),
             $entity->getPassword(),
-            $entity->getRoles()
+            $entity->getRoles()->toArray()
         );
     }
 }

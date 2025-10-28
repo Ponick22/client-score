@@ -16,7 +16,7 @@ class UserOutputData
     {
         $this->id        = $entity->getId();
         $this->email     = $entity->getEmail();
-        $this->roles     = $entity->getRoles();
+        $this->roles     = $entity->getRoles()->toArray();
         $this->createdAt = $entity->getCreatedAt();
         $this->updatedAt = $entity->getUpdatedAt();
     }

@@ -3,9 +3,16 @@
 namespace App\Infrastructure\Doctrine\Entity;
 
 use App\Domain\Profile\Entity\ProfileEntityInterface;
+use App\Domain\Profile\Exception\ProfileEmailInvalidException;
+use App\Domain\Profile\Exception\ProfileFirstNameInvalidException;
+use App\Domain\Profile\Exception\ProfileLastNameInvalidException;
+use App\Domain\Profile\Exception\ProfilePhoneInvalidException;
+use App\Domain\Profile\ValueObject\ProfileEmail;
+use App\Domain\Profile\ValueObject\ProfileFirstName;
+use App\Domain\Profile\ValueObject\ProfileLastName;
+use App\Domain\Profile\ValueObject\ProfilePhone;
 use App\Domain\User\Entity\UserEntityInterface;
 use App\Infrastructure\Doctrine\Repository\ProfileRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
@@ -27,10 +34,10 @@ class Profile implements ProfileEntityInterface
     #[ORM\Column(length: 12, unique: true)]
     private string $phone;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
 
     #[ORM\Column]
@@ -42,7 +49,7 @@ class Profile implements ProfileEntityInterface
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTimeImmutable();
+        $now             = new \DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -58,7 +65,7 @@ class Profile implements ProfileEntityInterface
         return $this->id;
     }
 
-    public function getUser(): User
+    public function getUser(): UserEntityInterface
     {
         return $this->user;
     }
@@ -74,55 +81,60 @@ class Profile implements ProfileEntityInterface
         return $this;
     }
 
-    public function getEmail(): ?string
+    /**
+     * @throws ProfileEmailInvalidException
+     */
+    public function getEmail(): ProfileEmail
     {
-        return $this->email;
+        return new ProfileEmail($this->email);
     }
 
-    public function setEmail(?string $email): static
+    public function setEmail(ProfileEmail $email): static
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getPhone(): ?string
+    /**
+     * @throws ProfilePhoneInvalidException
+     */
+    public function getPhone(): ProfilePhone
     {
-        return $this->phone;
+        return new ProfilePhone($this->phone);
     }
 
-    protected function setPhone(?string $phone): static
+    public function setPhone(ProfilePhone $phone): static
     {
         $this->phone = $phone;
 
         return $this;
     }
 
-    public function changePhone(?string $phone): static
+    /**
+     * @throws ProfileFirstNameInvalidException
+     */
+    public function getFirstName(): ?ProfileFirstName
     {
-        $this->setPhone($phone);
-
-        return $this;
+        return $this->firstName ? new ProfileFirstName($this->firstName) : null;
     }
 
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(?string $firstName): static
+    public function setFirstName(?ProfileFirstName $firstName): static
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    /**
+     * @throws ProfileLastNameInvalidException
+     */
+    public function getLastName(): ?ProfileLastName
     {
-        return $this->lastName;
+        return $this->lastName ? new ProfileLastName($this->lastName) : null;
     }
 
-    public function setLastName(?string $lastName): static
+    public function setLastName(?ProfileLastName $lastName): static
     {
         $this->lastName = $lastName;
 

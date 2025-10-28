@@ -4,75 +4,47 @@ namespace App\Presentation\EntryPoint\Data\Client\DTO;
 
 use App\Application\Client\Connector\Command\EntityCreation\Contract\ClientEntityCreationDataInterface;
 use App\Domain\Client\Enum\EducationEnum;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Domain\Profile\ValueObject\ProfileEmail;
+use App\Domain\Profile\ValueObject\ProfileFirstName;
+use App\Domain\Profile\ValueObject\ProfileLastName;
+use App\Domain\Profile\ValueObject\ProfilePhone;
+use App\Domain\User\ValueObject\UserEmail;
 
-class ClientEntityCreationData implements ClientEntityCreationDataInterface
+readonly class ClientEntityCreationData implements ClientEntityCreationDataInterface
 {
-    #[Assert\Length(max: 255)]
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    private string $email;
+    public function __construct(
+        private UserEmail         $userEmail,
+        private ProfileEmail      $profileEmail,
+        private ProfilePhone      $phone,
+        private ?ProfileFirstName $firstName,
+        private ?ProfileLastName  $lastName,
+        private EducationEnum     $education,
+        private bool              $consentPersonalData,
+    ) {}
 
-    #[Assert\NotBlank]
-    private string $phone;
-
-    #[Assert\NotBlank]
-    private string $firstName;
-
-    #[Assert\NotBlank]
-    private string $lastName;
-
-    #[Assert\NotBlank]
-    private EducationEnum $education;
-
-    private bool $consentPersonalData;
-
-    public function getEmail(): string
+    public function getUserEmail(): UserEmail
     {
-        return $this->email;
+        return $this->userEmail;
     }
 
-    public function setEmail(string $email): self
+    public function getProfileEmail(): ProfileEmail
     {
-        $this->email = $email;
-
-        return $this;
+        return $this->profileEmail;
     }
 
-    public function getPhone(): string
+    public function getPhone(): ProfilePhone
     {
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getFirstName(): string
+    public function getFirstName(): ?ProfileFirstName
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): string
+    public function getLastName(): ?ProfileLastName
     {
         return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
     }
 
     public function getEducation(): EducationEnum
@@ -80,22 +52,8 @@ class ClientEntityCreationData implements ClientEntityCreationDataInterface
         return $this->education;
     }
 
-    public function setEducation(EducationEnum $education): self
-    {
-        $this->education = $education;
-
-        return $this;
-    }
-
     public function getConsentPersonalData(): bool
     {
         return $this->consentPersonalData;
-    }
-
-    public function setConsentPersonalData(bool $consentPersonalData): self
-    {
-        $this->consentPersonalData = $consentPersonalData;
-
-        return $this;
     }
 }

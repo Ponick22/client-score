@@ -3,46 +3,30 @@
 namespace App\Presentation\EntryPoint\Data\User\DTO;
 
 use App\Application\User\Connector\Command\EntityCreation\Contract\UserEntityCreationDataInterface;
+use App\Domain\User\ValueObject\UserEmail;
+use App\Domain\User\ValueObject\UserPassword;
+use App\Domain\User\ValueObject\UserRoleEnumCollection;
 
-class UserEntityCreationData implements UserEntityCreationDataInterface
+readonly class UserEntityCreationData implements UserEntityCreationDataInterface
 {
-    private string  $email;
-    private ?string $password = null;
-    private array   $roles    = [];
+    public function __construct(
+        private UserEmail              $email,
+        private ?UserPassword          $password = null,
+        private UserRoleEnumCollection $roles = new UserRoleEnumCollection(),
+    ) {}
 
-    public function getEmail(): string
+    public function getEmail(): UserEmail
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
+    public function getPassword(): ?UserPassword
     {
         return $this->password;
     }
 
-    public function setPassword(?string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRoles(): array
+    public function getRoles(): UserRoleEnumCollection
     {
         return $this->roles;
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
     }
 }

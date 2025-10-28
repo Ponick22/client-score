@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Form\Client;
 
-use App\Presentation\EntryPoint\Data\Client\DTO\ClientEntityCreationData;
+use App\Presentation\Form\Client\DTO\ClientRegistrationFormData;
 use App\Presentation\Form\Client\Type\EducationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -44,7 +44,7 @@ class ClientRegistrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ClientEntityCreationData::class,
+            'data_class' => ClientRegistrationFormData::class,
         ]);
     }
 }

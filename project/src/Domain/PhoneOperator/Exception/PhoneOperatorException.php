@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Application\PhoneOperator\Exception;
+namespace App\Domain\PhoneOperator\Exception;
 
 use App\Application\Exception\ApplicationExceptionAbstract;
 

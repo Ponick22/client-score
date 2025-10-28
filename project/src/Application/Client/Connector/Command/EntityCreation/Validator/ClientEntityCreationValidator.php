@@ -18,12 +18,9 @@ readonly class ClientEntityCreationValidator
     {
         $errors = new ValidationErrorCollection();
 
-        $result = $this->profileValidator->emailValidation($data->getEmail());
-        if ($result->isValid()) {
-            $result = $this->userValidator->emailValidation($data->getEmail());
-        }
-        $errors->addErrors($result);
+        $errors->addErrors($this->userValidator->emailValidation($data->getUserEmail()));
 
+        $errors->addErrors($this->profileValidator->emailValidation($data->getProfileEmail()));
         $errors->addErrors($this->profileValidator->phoneValidation($data->getPhone()));
 
         return $errors;

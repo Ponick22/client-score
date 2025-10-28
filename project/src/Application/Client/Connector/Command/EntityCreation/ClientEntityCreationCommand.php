@@ -8,14 +8,15 @@ use App\Application\Client\Connector\Command\EntityCreation\Validator\ClientEnti
 use App\Application\Client\DTO\ClientCreateData;
 use App\Application\Client\DTO\ClientOutputData;
 use App\Application\Exception\ValidationException;
-use App\Application\PhoneOperator\Exception\PhoneOperatorException;
 use App\Application\Profile\DTO\ProfileCreateData;
 use App\Application\Profile\ProfileEntityCreator;
 use App\Application\User\DTO\UserCreateData;
-use App\Application\User\Model\UserRole;
 use App\Application\User\UserEntityCreator;
 use App\Domain\EntityManager\EntityManagerInterface;
 use App\Domain\EntityManager\Exception\EntityManagerException;
+use App\Domain\PhoneOperator\Exception\PhoneOperatorException;
+use App\Domain\User\Enum\UserRoleEnum;
+use App\Domain\User\ValueObject\UserRoleEnumCollection;
 
 readonly class ClientEntityCreationCommand
 {
@@ -41,16 +42,16 @@ readonly class ClientEntityCreationCommand
         }
 
         $userCreateData = new UserCreateData(
-            $data->getEmail(),
+            $data->getUserEmail(),
             null,
-            [UserRole::CLIENT],
+            new UserRoleEnumCollection([UserRoleEnum::Client]),
         );
 
         $user = $this->userCreator->create($userCreateData);
 
         $profileCreateData = new ProfileCreateData(
             $user,
-            $data->getEmail(),
+            $data->getProfileEmail(),
             $data->getPhone(),
             $data->getFirstName(),
             $data->getLastName(),

@@ -3,6 +3,11 @@
 namespace App\Infrastructure\Doctrine\Entity;
 
 use App\Domain\User\Entity\UserEntityInterface;
+use App\Domain\User\Enum\UserRoleEnum;
+use App\Domain\User\Exception\UserEmailInvalidException;
+use App\Domain\User\ValueObject\UserEmail;
+use App\Domain\User\ValueObject\UserHashPassword;
+use App\Domain\User\ValueObject\UserRoleEnumCollection;
 use App\Infrastructure\Doctrine\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,7 +23,7 @@ class User implements UserEntityInterface
     #[ORM\Column(length: 255, unique: true)]
     private string $email;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $password = null;
 
     #[ORM\Column]
@@ -33,7 +38,7 @@ class User implements UserEntityInterface
     #[ORM\PrePersist]
     public function onPrePersist(): void
     {
-        $now = new \DateTimeImmutable();
+        $now             = new \DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }
@@ -49,45 +54,46 @@ class User implements UserEntityInterface
         return $this->id;
     }
 
-    public function getEmail(): string
+    /**
+     * @throws UserEmailInvalidException
+     */
+    public function getEmail(): UserEmail
     {
-        return $this->email;
+        return new UserEmail($this->email);
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(UserEmail $email): static
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): ?UserHashPassword
     {
-        return $this->password;
+        return $this->password ? UserHashPassword::fromHashPassword($this->password) : null;
     }
 
-    protected function setPassword(?string $password): static
+    public function setPassword(?UserHashPassword $password): static
     {
         $this->password = $password;
 
         return $this;
     }
 
-    public function changePassword(?string $password): static
+    public function getRoles(): UserRoleEnumCollection
     {
-        $this->setPassword($password);
+        $roles = array_map(
+            fn(string $role) => UserRoleEnum::from($role),
+            $this->roles
+        );
 
-        return $this;
+        return new UserRoleEnumCollection($roles);
     }
 
-    public function getRoles(): array
+    public function setRoles(UserRoleEnumCollection $roles): static
     {
-        return $this->roles;
-    }
-
-    public function setRoles(array $roles): static
-    {
-        $this->roles = $roles;
+        $this->roles = $roles->toArray();
 
         return $this;
     }

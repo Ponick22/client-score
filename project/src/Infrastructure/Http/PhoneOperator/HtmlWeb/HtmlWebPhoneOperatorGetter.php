@@ -2,8 +2,9 @@
 
 namespace App\Infrastructure\Http\PhoneOperator\HtmlWeb;
 
-use App\Application\PhoneOperator\Exception\PhoneOperatorException;
-use App\Application\PhoneOperator\PhoneOperatorGetterInterface;
+use App\Domain\PhoneOperator\Exception\PhoneOperatorException;
+use App\Domain\PhoneOperator\PhoneOperatorGetterInterface;
+use App\Domain\PhoneOperator\ValueObject\PhoneOperator;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 readonly class HtmlWebPhoneOperatorGetter implements PhoneOperatorGetterInterface
@@ -14,7 +15,7 @@ readonly class HtmlWebPhoneOperatorGetter implements PhoneOperatorGetterInterfac
         private string              $apiKey,
     ) {}
 
-    public function get(string $phone): ?string
+    public function get(string $phone): ?PhoneOperator
     {
         $query = [];
 
@@ -35,6 +36,8 @@ readonly class HtmlWebPhoneOperatorGetter implements PhoneOperatorGetterInterfac
             throw new PhoneOperatorException($e->getMessage(), 0, $e);
         }
 
-        return $data['oper']['brand'] ?? null;
+        $operator = $data['oper']['brand'] ?? null;
+
+        return $operator ? PhoneOperator::fromPhoneOperator($operator) : null;
     }
 }

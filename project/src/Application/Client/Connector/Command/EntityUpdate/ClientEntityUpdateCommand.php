@@ -3,27 +3,25 @@
 namespace App\Application\Client\Connector\Command\EntityUpdate;
 
 use App\Application\Client\ClientEntityGetter;
-use App\Application\Client\ClientEntityUpdateService;
 use App\Application\Client\Connector\Command\EntityUpdate\Contract\ClientEntityUpdateDataInterface;
 use App\Application\Client\Connector\Command\EntityUpdate\Validator\ClientEntityUpdateValidator;
 use App\Application\Client\DTO\ClientOutputData;
-use App\Application\Client\DTO\ClientUpdateData;
 use App\Application\Client\Exception\ClientEntityNotFoundException;
+use App\Application\Client\Service\ClientScoreCalculating;
 use App\Application\Exception\ValidationException;
-use App\Application\PhoneOperator\Exception\PhoneOperatorException;
-use App\Application\Profile\DTO\ProfileUpdateData;
-use App\Application\Profile\ProfileEntityUpdateService;
 use App\Domain\EntityManager\EntityManagerInterface;
 use App\Domain\EntityManager\Exception\EntityManagerException;
+use App\Domain\PhoneOperator\Exception\PhoneOperatorException;
+use App\Domain\PhoneOperator\PhoneOperatorGetterInterface;
 
 readonly class ClientEntityUpdateCommand
 {
     public function __construct(
-        private ClientEntityGetter          $getter,
-        private ClientEntityUpdateValidator $validator,
-        private ProfileEntityUpdateService  $profileUpdateService,
-        private ClientEntityUpdateService   $clientUpdateService,
-        private EntityManagerInterface      $entityManager,
+        private ClientEntityGetter           $getter,
+        private ClientEntityUpdateValidator  $validator,
+        private PhoneOperatorGetterInterface $phoneOperatorGetter,
+        private ClientScoreCalculating       $clientScoreCalculating,
+        private EntityManagerInterface       $entityManager,
     ) {}
 
     /**
@@ -42,26 +40,25 @@ readonly class ClientEntityUpdateCommand
             throw new ValidationException($errors);
         }
 
-        $profileUpdateData = new ProfileUpdateData(
-            $data->getEmail(),
-            $data->getPhone(),
-            $data->getFirstName(),
-            $data->getLastName(),
-        );
-
         $profile = $client->getProfile();
 
-        $oldProfilePhone = $profile->getPhone();
+        $oldProfilePhone = (string)$profile->getPhone();
 
-        $this->profileUpdateService->update($profile, $profileUpdateData);
+        $profile
+            ->setEmail($data->getEmail())
+            ->setPhone($data->getPhone())
+            ->setFirstName($data->getFirstName())
+            ->setLastName($data->getLastName());
 
-        $clientUpdateData = new ClientUpdateData(
-            $data->getEducation(),
-            $data->getConsentPersonalData(),
-            ($oldProfilePhone !== $data->getPhone()) ? $data->getPhone() : null,
-        );
+        $client
+            ->setEducation($data->getEducation())
+            ->setConsentPersonalData($data->getConsentPersonalData());
 
-        $this->clientUpdateService->update($client, $clientUpdateData);
+        if ($oldProfilePhone !== (string)$data->getPhone() or !$client->getPhoneOperator()) {
+            $client->setPhoneOperator($this->phoneOperatorGetter->get($data->getPhone()));
+        }
+
+        $client->setScore($this->clientScoreCalculating->calculate($client)->getScore());
 
         $this->entityManager->flush();
 

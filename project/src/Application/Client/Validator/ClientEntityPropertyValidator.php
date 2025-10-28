@@ -2,7 +2,6 @@
 
 namespace App\Application\Client\Validator;
 
-use App\Application\Translator\ValidationErrorTranslatorInterface;
 use App\Domain\Client\Repository\ClientRepositoryInterface;
 use App\Domain\Profile\Repository\ProfileRepositoryInterface;
 use App\Util\Validation\ValidationErrorCollection;
@@ -10,9 +9,8 @@ use App\Util\Validation\ValidationErrorCollection;
 readonly class ClientEntityPropertyValidator
 {
     public function __construct(
-        private ClientRepositoryInterface          $repository,
-        private ProfileRepositoryInterface         $profileRepository,
-        private ValidationErrorTranslatorInterface $translator,
+        private ClientRepositoryInterface  $repository,
+        private ProfileRepositoryInterface $profileRepository,
     ) {}
 
     public function profileValidation(int $profileId): ValidationErrorCollection
@@ -23,16 +21,11 @@ readonly class ClientEntityPropertyValidator
 
         $profile = $this->profileRepository->getOne($profileId);
         if (!$profile) {
-            $errors->addError($property, $this->t('error.profile.not_found'));
+            $errors->addError($property, 'error.profile.not_found');
         } else if ($this->repository->getOneByProfile($profile)) {
-            $errors->addError($property, $this->t('error.client.profile_already_exists'));
+            $errors->addError($property, 'error.client.profile_already_exists');
         }
 
         return $errors;
-    }
-
-    private function t(string $message): string
-    {
-        return $this->translator->translate($message);
     }
 }

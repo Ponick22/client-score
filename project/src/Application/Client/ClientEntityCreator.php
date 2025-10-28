@@ -3,19 +3,19 @@
 namespace App\Application\Client;
 
 use App\Application\Client\DTO\ClientCreateData;
-use App\Application\Client\Service\ClientPhoneOperatorChanger;
 use App\Application\Client\Service\ClientScoreCalculating;
-use App\Application\PhoneOperator\Exception\PhoneOperatorException;
 use App\Domain\Client\Entity\ClientEntityInterface;
 use App\Domain\Client\Factory\ClientEntityFactoryInterface;
 use App\Domain\EntityManager\EntityManagerInterface;
 use App\Domain\EntityManager\Exception\EntityManagerException;
+use App\Domain\PhoneOperator\Exception\PhoneOperatorException;
+use App\Domain\PhoneOperator\PhoneOperatorGetterInterface;
 
 readonly class ClientEntityCreator
 {
     public function __construct(
         private ClientEntityFactoryInterface $factory,
-        private ClientPhoneOperatorChanger   $phoneOperatorChanger,
+        private PhoneOperatorGetterInterface $operatorGetter,
         private ClientScoreCalculating       $scoreCalculating,
         private EntityManagerInterface       $entityManager,
     ) {}
@@ -31,9 +31,8 @@ readonly class ClientEntityCreator
         $entity
             ->setProfile($data->getProfile())
             ->setEducation($data->getEducation())
-            ->setConsentPersonalData($data->getConsentPersonalData());
-
-        $this->phoneOperatorChanger->change($entity, $data->getProfile()->getPhone());
+            ->setConsentPersonalData($data->getConsentPersonalData())
+            ->setPhoneOperator($this->operatorGetter->get($data->getProfile()->getPhone()));
 
         $entity->setScore($this->scoreCalculating->calculate($entity)->getScore());
 

@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Security\Provider;
 
 use App\Domain\User\Repository\UserRepositoryInterface;
+use App\Domain\User\ValueObject\UserEmail;
 use App\Infrastructure\Security\Factory\UserFactory;
 use App\Infrastructure\Security\ValueObject\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -19,7 +20,7 @@ readonly class UserProvider implements UserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $user = $this->userRepository->getOneByEmail($identifier);
+        $user = $this->userRepository->getOneByEmail(new UserEmail($identifier));
 
         if (!$user) {
             throw new UserNotFoundException();

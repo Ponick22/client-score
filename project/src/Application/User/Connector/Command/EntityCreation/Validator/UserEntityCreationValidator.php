@@ -18,10 +18,6 @@ readonly class UserEntityCreationValidator
 
         $errors->addErrors($this->propertyValidator->emailValidation($data->getEmail()));
 
-        if ($data->getPassword()) {
-            $errors->addErrors($this->propertyValidator->passwordValidation($data->getPassword()));
-        }
-
         return $errors;
     }
 }

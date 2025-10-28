@@ -2,7 +2,7 @@
 
 namespace App\Presentation\Form\Client;
 
-use App\Presentation\EntryPoint\Data\Client\DTO\ClientEntityUpdateData;
+use App\Presentation\Form\Client\DTO\ClientEditFormData;
 use App\Presentation\Form\Client\Type\EducationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -48,7 +48,7 @@ class ClientEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ClientEntityUpdateData::class,
+            'data_class' => ClientEditFormData::class,
         ]);
     }
 }

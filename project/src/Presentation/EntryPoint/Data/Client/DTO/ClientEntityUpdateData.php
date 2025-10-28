@@ -4,88 +4,46 @@ namespace App\Presentation\EntryPoint\Data\Client\DTO;
 
 use App\Application\Client\Connector\Command\EntityUpdate\Contract\ClientEntityUpdateDataInterface;
 use App\Domain\Client\Enum\EducationEnum;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Domain\Profile\ValueObject\ProfileEmail;
+use App\Domain\Profile\ValueObject\ProfileFirstName;
+use App\Domain\Profile\ValueObject\ProfileLastName;
+use App\Domain\Profile\ValueObject\ProfilePhone;
 
-class ClientEntityUpdateData implements ClientEntityUpdateDataInterface
+readonly class ClientEntityUpdateData implements ClientEntityUpdateDataInterface
 {
-    #[Assert\NotBlank]
-    private int $id;
-
-    #[Assert\Length(max: 255)]
-    #[Assert\Email]
-    #[Assert\NotBlank]
-    private string $email;
-
-    #[Assert\NotBlank]
-    private string $phone;
-
-    #[Assert\NotBlank]
-    private string $firstName;
-
-    #[Assert\NotBlank]
-    private string $lastName;
-
-    #[Assert\NotBlank]
-    private EducationEnum $education;
-
-    private bool $consentPersonalData;
-
-    public function __construct(int $id)
-    {
-        $this->id = $id;
-    }
+    public function __construct(
+        private int               $id,
+        private ProfileEmail      $email,
+        private ProfilePhone      $phone,
+        private ?ProfileFirstName $firstName,
+        private ?ProfileLastName  $lastName,
+        private EducationEnum     $education,
+        private bool              $consentPersonalData,
+    ) {}
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ProfileEmail
     {
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPhone(): string
+    public function getPhone(): ProfilePhone
     {
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
-    public function getFirstName(): string
+    public function getFirstName(): ?ProfileFirstName
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): string
+    public function getLastName(): ?ProfileLastName
     {
         return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
     }
 
     public function getEducation(): EducationEnum
@@ -93,22 +51,8 @@ class ClientEntityUpdateData implements ClientEntityUpdateDataInterface
         return $this->education;
     }
 
-    public function setEducation(EducationEnum $education): self
-    {
-        $this->education = $education;
-
-        return $this;
-    }
-
     public function getConsentPersonalData(): bool
     {
         return $this->consentPersonalData;
-    }
-
-    public function setConsentPersonalData(bool $consentPersonalData): self
-    {
-        $this->consentPersonalData = $consentPersonalData;
-
-        return $this;
     }
 }

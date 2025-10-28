@@ -34,8 +34,8 @@ readonly class ClientScoreCalculating
             $value = match (get_class($scoringService)) {
                 ConsentScoring::class       => $client->getConsentPersonalData(),
                 EducationScoring::class     => $client->getEducation()->value,
-                EmailDomainScoring::class   => $client->getProfile()->getEmail(),
-                PhoneOperatorScoring::class => $client->getPhoneOperator(),
+                EmailDomainScoring::class   => (string)$client->getProfile()->getEmail(),
+                PhoneOperatorScoring::class => (string)$client->getPhoneOperator(),
                 default                     => null,
             };
 
