@@ -21,6 +21,10 @@
                 <td>{{ client.profile.phone }}</td>
             </tr>
             <tr>
+                <th scope="row">{{ 'client.phone_operator'|trans }}</th>
+                <td>{{ client.phoneOperator }}</td>
+            </tr>
+            <tr>
                 <th scope="row">{{ 'client.firstname'|trans }}</th>
                 <td>{{ client.profile.firstName }}</td>
             </tr>
@@ -45,6 +49,14 @@
             <tr>
                 <th scope="row">{{ 'client.score'|trans }}</th>
                 <td>{{ client.score }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.created_at'|trans }}</th>
+                <td>{{ client.createdAt|date('d.m.Y H:i:s', userTimezone|default('UTC')) }}</td>
+            </tr>
+            <tr>
+                <th scope="row">{{ 'client.updated_at'|trans }}</th>
+                <td>{{ client.updatedAt|date('d.m.Y H:i:s', userTimezone|default('UTC')) }}</td>
             </tr>
             </tbody>
         </table>

@@ -1,6 +1,7 @@
 client:
     email: 'Электронная почта'
     phone: 'Телефон'
+    phone_operator: 'Оператор телефона'
     firstname: 'Имя'
     lastname: 'Фамилия'
     education: 'Образование'
@@ -10,6 +11,8 @@ client:
     education_special: 'Специальное'
     education_secondary: 'Среднее'
     score: 'Скоринг'
+    created_at: 'Дата создания'
+    updated_at: 'Дата обновления'
     save: 'Сохранить'
     table: 'Клиенты'
     title: 'Клиент'
