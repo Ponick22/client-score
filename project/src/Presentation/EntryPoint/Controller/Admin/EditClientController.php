@@ -48,16 +48,18 @@ final class EditClientController extends AbstractController
 
         if ($request->isMethod('GET')) {
             try {
-                $client = $clientEntityQuery->execute($id, true);
+                $client = $clientEntityQuery->execute($id);
             } catch (ClientEntityNotFoundException $e) {
                 throw $this->createNotFoundException($e->getMessage());
             }
 
+            $profile = $client->getProfile();
+
             $formData
-                ->setPhone($client->getProfile()->getPhone())
-                ->setEmail($client->getProfile()->getEmail())
-                ->setFirstName($client->getProfile()->getFirstName())
-                ->setLastName($client->getProfile()->getLastName())
+                ->setPhone($profile?->getPhone())
+                ->setEmail($profile?->getEmail())
+                ->setFirstName($profile?->getFirstName())
+                ->setLastName($profile?->getLastName())
                 ->setEducation($client->getEducation())
                 ->setConsentPersonalData($client->getConsentPersonalData());
         }

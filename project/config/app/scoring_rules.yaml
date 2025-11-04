@@ -2,9 +2,12 @@ parameters:
     scoring_rules:
         phone_operator:
             list:
-                Мегафон: 10
-                Билайн: 5
-                МТС: 3
+                мегафон: 10
+                megafon: 10
+                билайн: 5
+                beeline: 5
+                мтс: 3
+                mts: 3
             default: 1
         email_domain:
             list:

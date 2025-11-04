@@ -32,7 +32,7 @@ if ($prefix >= 900 && $prefix <= 905 || $prefix >= 955 && $prefix <= 960) {
 } else if ($prefix >= 990 && $prefix <= 995 || $prefix >= 905 && $prefix <= 910) {
     $operator = "Теле2";
 } else {
-    $operator = "Yota";
+    $operator = null;
 }
 
 echo json_encode([

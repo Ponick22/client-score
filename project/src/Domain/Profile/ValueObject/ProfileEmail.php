@@ -16,11 +16,11 @@ class ProfileEmail
         $email = trim($email);
 
         if (strlen($email) > 255) {
-            throw new ProfileEmailInvalidException('error.email.too_long');
+            throw new ProfileEmailInvalidException('error.email.too_long', ProfileEmailInvalidException::ERROR_TOO_LONG);
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new ProfileEmailInvalidException('error.email.invalid');
+            throw new ProfileEmailInvalidException('error.email.invalid', ProfileEmailInvalidException::ERROR_INVALID_FORMAT);
         }
 
         $this->value = $email;

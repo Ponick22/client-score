@@ -16,7 +16,7 @@ class ProfileLastName
         $lastName = trim($lastName);
 
         if (strlen($lastName) > 255) {
-            throw new ProfileLastNameInvalidException('error.last_name.too_long');
+            throw new ProfileLastNameInvalidException('error.last_name.too_long', ProfileLastNameInvalidException::ERROR_TOO_LONG);
         }
 
         $this->value = $lastName;

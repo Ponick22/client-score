@@ -12,7 +12,7 @@ abstract readonly class ScoringAbstract implements ScoringInterface
 
     abstract public function getName(): string;
 
-    public function scoring(mixed $value): ScoringData
+    public function scoring(string $value): ScoringData
     {
         $score = $this->getRules()[$value] ?? $this->getDefaultScore();
 

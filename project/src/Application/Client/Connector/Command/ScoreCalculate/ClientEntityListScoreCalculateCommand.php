@@ -44,7 +44,7 @@ readonly class ClientEntityListScoreCalculateCommand
                     ->setOffset($offset)
                     ->setLimit($batchSize);
 
-                $clients = $this->repository->getListByFilter($data);
+                $clients = $this->repository->getListByFilterWithProfile($data);
 
                 foreach ($clients as $client) {
                     $scoringData = $this->scoreCalculating->calculate($client);

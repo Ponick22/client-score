@@ -12,7 +12,7 @@ readonly class EmailDomainScoring extends ScoringAbstract
         return 'email_domain';
     }
 
-    public function scoring(mixed $value): ScoringData
+    public function scoring(string $value): ScoringData
     {
         if (filter_var($value, FILTER_VALIDATE_EMAIL)) {
             $value = substr(strrchr($value, "@"), 1);

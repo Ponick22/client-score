@@ -21,7 +21,7 @@ final class ShowClientController extends AbstractController
         $userTimezone = $request->cookies->get('user_timezone', 'UTC');
 
         try {
-            $client = $clientEntityQuery->execute($id, true);
+            $client = $clientEntityQuery->execute($id);
         } catch (ClientEntityNotFoundException $e) {
             throw $this->createNotFoundException($e->getMessage());
         }

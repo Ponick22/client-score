@@ -33,7 +33,7 @@ class ClientRepository extends ServiceEntityRepository implements ClientReposito
         return $this->findOneBy(['profile' => $profile]);
     }
 
-    public function getListByFilter(?ClientFilterDataInterface $filter = null): ClientEntityCollectionAbstract
+    public function getListByFilterWithProfile(?ClientFilterDataInterface $filter = null): ClientEntityCollectionAbstract
     {
         $entities = $this->createQueryBuilderByFilter($filter)
             ->leftJoin('c.profile', 'p')

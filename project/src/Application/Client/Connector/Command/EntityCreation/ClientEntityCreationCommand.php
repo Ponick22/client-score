@@ -69,6 +69,6 @@ readonly class ClientEntityCreationCommand
 
         $this->entityManager->flush();
 
-        return new ClientOutputData($client, $profile);
+        return new ClientOutputData($client);
     }
 }

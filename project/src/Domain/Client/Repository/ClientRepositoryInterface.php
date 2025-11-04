@@ -12,7 +12,7 @@ interface ClientRepositoryInterface
     public function getOne(int $id): ?ClientEntityInterface;
     public function getOneByProfile(ProfileEntityInterface $profile): ?ClientEntityInterface;
 
-    public function getListByFilter(?ClientFilterDataInterface $filter = null): ClientEntityCollectionAbstract;
+    public function getListByFilterWithProfile(?ClientFilterDataInterface $filter = null): ClientEntityCollectionAbstract;
 
     public function getCountByFilter(?ClientFilterDataInterface $filter = null): int;
 }

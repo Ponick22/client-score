@@ -15,11 +15,11 @@ readonly class ClientEntityListByFilterQuery
 
     public function execute(?ClientEntityListByFilterInterface $filter = null): ClientOutputDataCollection
     {
-        $entities = $this->repository->getListByFilter($filter);
+        $entities = $this->repository->getListByFilterWithProfile($filter);
 
         $collection = new ClientOutputDataCollection();
         foreach ($entities as $entity) {
-            $collection->add(new ClientOutputData($entity, $entity->getProfile()));
+            $collection->add(new ClientOutputData($entity));
         }
 
         return $collection;

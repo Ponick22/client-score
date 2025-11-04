@@ -31,15 +31,15 @@ readonly class ClientScoreCalculating
         $details = new ScoringDataCollection();
 
         foreach ($this->scoringServices as $scoringService) {
-            $value = match (get_class($scoringService)) {
-                ConsentScoring::class       => $client->getConsentPersonalData(),
-                EducationScoring::class     => $client->getEducation()->value,
-                EmailDomainScoring::class   => (string)$client->getProfile()->getEmail(),
-                PhoneOperatorScoring::class => (string)$client->getPhoneOperator(),
-                default                     => null,
+            $value = match (true) {
+                $scoringService instanceof ConsentScoring       => $client->getConsentPersonalData(),
+                $scoringService instanceof EducationScoring     => $client->getEducation()->value,
+                $scoringService instanceof EmailDomainScoring   => (string)$client->getProfile()->getEmail(),
+                $scoringService instanceof PhoneOperatorScoring => (string)$client->getPhoneOperator(),
+                default                                         => null,
             };
 
-            if ($value === null) {
+            if ($value === null || $value === '') {
                 continue;
             }
 

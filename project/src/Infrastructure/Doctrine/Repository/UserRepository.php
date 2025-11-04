@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Doctrine\Repository;
 
+use App\Domain\User\Entity\UserEntityInterface;
 use App\Domain\User\Repository\UserRepositoryInterface;
 use App\Domain\User\ValueObject\UserEmail;
 use App\Infrastructure\Doctrine\Entity\User;
@@ -18,12 +19,12 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
         parent::__construct($registry, User::class);
     }
 
-    public function getOne(int $id): ?User
+    public function getOne(int $id): ?UserEntityInterface
     {
         return $this->find($id);
     }
 
-    public function getOneByEmail(UserEmail $email): ?User
+    public function getOneByEmail(UserEmail $email): ?UserEntityInterface
     {
         return $this->findOneBy(['email' => (string)$email]);
     }

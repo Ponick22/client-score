@@ -5,13 +5,11 @@ namespace App\Application\Client\DTO;
 use App\Application\Profile\DTO\ProfileOutputData;
 use App\Domain\Client\Entity\ClientEntityInterface;
 use App\Domain\Client\Enum\EducationEnum;
-use App\Domain\Profile\Entity\ProfileEntityInterface;
 
 class ClientOutputData
 {
     protected int                $id;
-    protected int                $profileId;
-    protected ?ProfileOutputData $profile = null;
+    protected ProfileOutputData  $profile;
     protected EducationEnum      $education;
     protected bool               $consentPersonalData;
     protected ?string            $phoneOperator;
@@ -19,23 +17,16 @@ class ClientOutputData
     protected \DateTimeImmutable $createdAt;
     protected \DateTimeImmutable $updatedAt;
 
-    public function __construct(
-        ClientEntityInterface   $entity,
-        ?ProfileEntityInterface $profile = null,
-    )
+    public function __construct(ClientEntityInterface $entity)
     {
         $this->id                  = $entity->getId();
-        $this->profileId           = $entity->getProfile()->getId();
+        $this->profile             = new ProfileOutputData($entity->getProfile());
         $this->education           = $entity->getEducation();
         $this->consentPersonalData = $entity->getConsentPersonalData();
         $this->phoneOperator       = $entity->getPhoneOperator();
         $this->score               = $entity->getScore();
         $this->createdAt           = $entity->getCreatedAt();
         $this->updatedAt           = $entity->getUpdatedAt();
-
-        if ($profile) {
-            $this->profile = new ProfileOutputData($profile);
-        }
     }
 
     public function getId(): int
@@ -43,12 +34,7 @@ class ClientOutputData
         return $this->id;
     }
 
-    public function getProfileId(): int
-    {
-        return $this->profileId;
-    }
-
-    public function getProfile(): ?ProfileOutputData
+    public function getProfile(): ProfileOutputData
     {
         return $this->profile;
     }

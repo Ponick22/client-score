@@ -62,6 +62,6 @@ readonly class ClientEntityUpdateCommand
 
         $this->entityManager->flush();
 
-        return new ClientOutputData($client, $client->getProfile());
+        return new ClientOutputData($client);
     }
 }

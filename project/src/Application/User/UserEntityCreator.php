@@ -28,8 +28,8 @@ readonly class UserEntityCreator
             ->setEmail($data->getEmail())
             ->setRoles($data->getRoles());
 
-        if ($data->getPassword()) {
-            $hashPassword = $this->hasher->hash($entity, $data->getPassword());
+        if ($password = $data->getPassword()) {
+            $hashPassword = $this->hasher->hash($entity, $password);
             $entity->setPassword($hashPassword);
         }
 

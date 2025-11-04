@@ -9,8 +9,8 @@ class UserHashPassword
     private function __construct(string $hashPassword)
     {
         $info = password_get_info($hashPassword);
-        if ($info['algo'] === 0) {
-            throw new \LogicException('Password is not hashed');
+        if ($info['algo'] === null) {
+            throw new \InvalidArgumentException('Password is not hashed');
         }
 
         $this->value = $hashPassword;

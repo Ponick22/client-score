@@ -24,7 +24,7 @@ class ProfilePhone
                 $phone = '+' . $phone;
             }
         } else {
-            throw new ProfilePhoneInvalidException('error.phone.invalid');
+            throw new ProfilePhoneInvalidException('error.phone.invalid', ProfilePhoneInvalidException::ERROR_INVALID_FORMAT);
         }
 
         $this->value = $phone;

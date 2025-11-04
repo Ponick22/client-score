@@ -12,7 +12,7 @@ readonly class ConsentScoring extends ScoringAbstract
         return 'consent';
     }
 
-    public function scoring(mixed $value): ScoringData
+    public function scoring(string $value): ScoringData
     {
         $value = $value ? 'true' : 'false';
 
