@@ -8,17 +8,17 @@ use App\Application\Client\Service\ClientScoreCalculating;
 use App\Application\Client\ValueObject\ClientOutputDataCollection;
 use App\Application\Lock\Exception\ProcessLockedException;
 use App\Application\Lock\LockServiceInterface;
+use App\Domain\Client\Repository\ClientRepositoryInterface;
 use App\Domain\EntityManager\EntityManagerInterface;
 use App\Domain\EntityManager\Exception\EntityManagerException;
-use App\Infrastructure\Doctrine\Repository\ClientRepository;
 
 readonly class ClientEntityListScoreCalculateCommand
 {
     public function __construct(
-        private LockServiceInterface   $lockService,
-        private ClientRepository       $repository,
-        private ClientScoreCalculating $scoreCalculating,
-        private EntityManagerInterface $entityManager,
+        private LockServiceInterface      $lockService,
+        private ClientRepositoryInterface $repository,
+        private ClientScoreCalculating    $scoreCalculating,
+        private EntityManagerInterface    $entityManager,
     ) {}
 
     /**
