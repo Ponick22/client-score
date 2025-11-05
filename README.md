@@ -29,8 +29,8 @@
 ## Запуск проекта
 
 1. Создайте файлы окружения и заполните их:
-    - `project/.env.local` - [переменные для контейнеров](docs%2Fenv_param.md)
-    - `.env.local` - [переменные для проекта](project%2Fdocs%2Fenv_param.md).
+   - `.env.local` - [переменные для контейнеров](docs%2Fenv_param.md)
+   - `project/.env.local` - [переменные для проекта](project%2Fdocs%2Fenv_param.md).
 2. Выполнить команду `bin/up` - запуск docker-compose
 3. Выполнить команду `bin/init` - подготовка пространства проекта (установка зависимостей, создание бд и т.д.)
 
