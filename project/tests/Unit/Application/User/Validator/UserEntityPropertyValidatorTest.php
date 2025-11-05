@@ -54,6 +54,6 @@ class UserEntityPropertyValidatorTest extends KernelTestCase
 
         $this->assertCount(1, $errors);
         $this->assertSame('email', $errors[0]->getProperty());
-        $this->assertSame('error.email.already_exists', $errors[0]->getMessage());
+        $this->assertSame('error.user.email_already_exists', $errors[0]->getMessage());
     }
 }

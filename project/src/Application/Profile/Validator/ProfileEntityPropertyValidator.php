@@ -38,7 +38,7 @@ readonly class ProfileEntityPropertyValidator
         $errors = new ValidationErrorCollection();
 
         if ($this->repository->getOneByEmail($email)) {
-            $errors->addError($property, 'error.email.already_exists');
+            $errors->addError($property, 'error.profile.email_already_exists');
         }
 
         return $errors;

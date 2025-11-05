@@ -56,7 +56,12 @@ class ClientRepository extends ServiceEntityRepository implements ClientReposito
     {
         $queryBuilder = $this->createQueryBuilder('c');
 
-        if ($filter and $filter->getOffset() !== null and $filter->getLimit() !== null) {
+        if ($filter
+            and $filter->getOffset() !== null
+            and $filter->getOffset() >= 0
+            and $filter->getLimit() !== null
+            and $filter->getLimit() > 0
+        ) {
             $queryBuilder
                 ->setFirstResult($filter->getOffset())
                 ->setMaxResults($filter->getLimit());
