@@ -1,0 +1,5 @@
+#!/bin/sh
+set -f
+cd "$(dirname "$0")"/../
+
+docker compose exec php bin/phpunit $@

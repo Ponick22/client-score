@@ -1,0 +1,8 @@
+#!/bin/sh
+set -f
+cd "$(dirname "$0")"/../
+
+bin/app --env=test cache:clear
+bin/app --env=test doctrine:database:create --if-not-exists
+bin/app --env=test doctrine:migrations:migrate --no-interaction
+bin/app --env=test doctrine:fixtures:load
